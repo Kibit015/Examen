@@ -1,0 +1,52 @@
+// Definir los pines del sensor y el LED
+const int trigPin = 9;   // Pin Trig del sensor de distancia
+const int echoPin = 10;  // Pin Echo del sensor de distancia
+const int ledPin = 13;   // Pin del LED
+
+void setup() {
+  // Configurar los pines
+  pinMode(trigPin, OUTPUT); // Trig como salida
+  pinMode(echoPin, INPUT);  // Echo como entrada
+  pinMode(ledPin, OUTPUT);  // LED como salida
+
+  // Iniciar la comunicación serial (opcional, para depuración)
+  Serial.begin(9600);
+}
+
+void loop() {
+  // Medir la distancia
+  float distance = measureDistance();
+
+  // Mostrar la distancia en el monitor serial (opcional)
+  Serial.print("Distancia: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+
+  // Activar el LED si la distancia es menor a 10 cm
+  if (distance < 10) {
+    digitalWrite(ledPin, HIGH); // Encender el LED
+  } else {
+    digitalWrite(ledPin, LOW);  // Apagar el LED
+  }
+
+  // Pequeña pausa antes de la siguiente medición
+  delay(100);
+}
+
+// Función para medir la distancia con el sensor de distancia
+float measureDistance() {
+  // Enviar un pulso corto al pin Trig
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+
+  // Medir la duración del pulso en el pin Echo
+  long duration = pulseIn(echoPin, HIGH);
+
+  // Calcular la distancia en centímetros
+  float distance = duration * 0.034 / 2;
+
+  return distance;
+}

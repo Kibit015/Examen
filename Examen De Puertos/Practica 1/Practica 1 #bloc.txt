@@ -1,0 +1,26 @@
+// Definir el pin analógico donde está conectado el sensor
+const int sensorPin = A0; // Puedes cambiarlo si usas otro pin
+
+void setup() {
+  // Iniciar la comunicación serial para mostrar los resultados
+  Serial.begin(9600);
+}
+
+void loop() {
+  // Leer el valor analógico del sensor (0-1023)
+  int sensorValue = analogRead(sensorPin);
+
+  // Convertir el valor analógico a voltaje (0-5V)
+  float voltage = sensorValue * (5.0 / 1023.0);
+
+  // convierte el voltaje a grados centigrados (fórmula para LM35)
+  float temperatureC = (voltage - 0.5) * 100.0;
+  
+  // Mostrar la temperatura en el monitor serial
+  Serial.print("Temperatura: ");
+  Serial.print(temperatureC);
+  Serial.println(" °C");
+
+  // Esperar 1 segundo antes de la siguiente lectura
+  delay(1000);
+}

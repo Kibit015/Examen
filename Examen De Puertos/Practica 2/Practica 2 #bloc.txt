@@ -1,0 +1,35 @@
+// Definir los pines
+const int tiltPin = 2;    // Pin donde está conectado el sensor de inclinación
+const int buzzerPin = 3;  // Pin donde está conectado el buzzer
+
+void setup() {
+  // Configurar el pin del sensor como entrada
+  pinMode(tiltPin, INPUT);
+
+  // Configurar el pin del buzzer como salida
+  pinMode(buzzerPin, OUTPUT);
+
+  // Iniciar la comunicación serial (opcional, para depuración)
+  Serial.begin(9600);
+}
+
+void loop() {
+  // Leer el estado del sensor de inclinación
+  int tiltState = digitalRead(tiltPin);
+
+  // Mostrar el estado en el monitor serial (opcional)
+  Serial.println(tiltState);
+
+  // Si el sensor está inclinado (posición horizontal, LOW)
+  if (tiltState == LOW) {
+    // Activar el buzzer
+    digitalWrite(buzzerPin, HIGH);
+  } else {
+    // Apagar el buzzer
+    digitalWrite(buzzerPin, LOW);
+  }
+
+  // Pequeña pausa para evitar lecturas erráticas
+  delay(100);
+  
+}
